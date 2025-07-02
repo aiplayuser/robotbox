@@ -9,20 +9,17 @@
 #include <Servo.h>//舵机库
 #include <ArduinoJson.h>//json数据库
 #include <Ticker.h>//多任务定时器
-WiFiManager espwifi; ESP8266WebServer espweb(80); DNSServer dnsServer; 
-Servo q,w,e,r,t,y,u,i; int ms=500; Ticker ticker;File file;
-String head="<!DOCTYPE html><html><head><meta charset=UTF-8><style>a{TEXT-DECORATION:none}</style><meta name=viewport content=\"width=device-width,initial-scale=1.5\"></head><body><p>"; 
-String body="<p><h2>重新连接espwifi</h2><p></body></html>",ssid,pass; bool ting=0;
+WiFiManager espwifi; ESP8266WebServer espweb(80); DNSServer dnsServer; Servo q,w,e,r,t,y,u,i; Ticker ticker; File file; int ms=100,ds=30; bool ting=0;
 
-void setup(){Serial.begin(9600);SPIFFS.begin();ssid = "ESP"+String(ESP.getChipId(),HEX);
-  if(SPIFFS.exists("/pass.json")){DynamicJsonDocument doc(50);
-     File file = SPIFFS.open("/pass.json", "r");deserializeJson(doc, file); 
-     pass=doc["pass"].as<String>(); file.close();WiFi.softAP(ssid,pass);}
-  else{espwifi.autoConnect(ssid.c_str()); }
-  q.attach(D1,545,2399);w.attach(D2,545,2399);e.attach(D3,545,2399);r.attach(D4,545,2399);
-  t.attach(D5,545,2399);y.attach(D6,545,2399);u.attach(D7,545,2399);i.attach(D8,545,2399);
-  espweb.begin(); ArduinoOTA.begin(); LLMNR.begin(ssid.c_str()); 
-  dnsServer.start(53,"*",IPAddress(192,168,4,1)); ticker.attach(0.3, chongzhi);
+void setup(){q.attach(D1);w.attach(D2);e.attach(D5);r.attach(D6); t.attach(D7);y.attach(D8);u.attach(D9);i.attach(D10);
+  q.write(90);w.write(90);e.write(90);r.write(90);t.write(90);y.write(90);u.write(90);i.write(90);
+  pinMode(D0, INPUT); pinMode(D3, INPUT_PULLUP); pinMode(D4, OUTPUT); digitalWrite(D4,0);
+  
+  SPIFFS.begin();String ssid = "ESP"+String(ESP.getChipId(),HEX);
+  if(SPIFFS.exists("/pass.json")){DynamicJsonDocument doc(50); file = SPIFFS.open("/pass.json", "r");deserializeJson(doc, file); 
+            String pass=doc["pass"].as<String>(); file.close();WiFi.softAP(ssid,pass);} else{espwifi.autoConnect(ssid.c_str());}
+  
+  espweb.begin(); ArduinoOTA.begin(); LLMNR.begin(ssid.c_str()); dnsServer.start(53,"*",IPAddress(192,168,4,1)); ticker.attach(3, chongzhi);
   espweb.on("/upload",HTTP_POST,respondOK,upload);//文件上传
   espweb.onNotFound(handleall);//处理所有请求
   espweb.on("/",HTTP_GET,handleRoot);//请求首页
@@ -35,140 +32,103 @@ void setup(){Serial.begin(9600);SPIFFS.begin();ssid = "ESP"+String(ESP.getChipId
   espweb.on("/cmdsave",cmdsave);//修改json命令
   espweb.on("/cmddanbu", cmddanbu);//执行json命令
   }
-void setpwm(){ //舵机控制
-    String pwmq = espweb.arg("1");if(pwmq!=0){q.write(pwmq.toInt());}
-    String pwmw = espweb.arg("2");if(pwmw!=0){w.write(pwmw.toInt());}
-    String pwme = espweb.arg("3");if(pwme!=0){e.write(pwme.toInt());}
-    String pwmr = espweb.arg("4");if(pwmr!=0){r.write(pwmr.toInt());}
-    String pwmt = espweb.arg("5");if(pwmt!=0){t.write(pwmt.toInt());}
-    String pwmy = espweb.arg("6");if(pwmy!=0){y.write(pwmy.toInt());}
-    String pwmu = espweb.arg("7");if(pwmu!=0){u.write(pwmu.toInt());}
-    String pwmi = espweb.arg("8");if(pwmi!=0){i.write(pwmi.toInt());}
-    String pwmd = espweb.arg("9");if(pwmd!=0){ms=pwmd.toInt();} }
+void setpwm(){String pwm = espweb.argName(0); int pwmv=espweb.arg(pwm).toInt(); switch (pwm[0]) { //舵机控制
+    case '1': q.write(pwmv); break; case '2': w.write(pwmv); break; case '3': e.write(pwmv); break; case '4': r.write(pwmv); break;
+    case '5': t.write(pwmv); break; case '6': y.write(pwmv); break; case '7': u.write(pwmv); break; case '8': i.write(pwmv); break;
+    case '9': ms=pwmv; break; case '0': ds=pwmv; break;
+      }}
 void cmdsave(){ //修改json命令
-    String mingzi = espweb.arg("mingzi");
-    String dongzuo = espweb.arg("dongzuo"); int dongint = dongzuo.toInt();
-    String bushu = espweb.arg("bushu"); int buint = bushu.toInt();
-    DynamicJsonDocument doc(8000);//准备建立json对象
-    File file = SPIFFS.open("/config.json", "r");//准备读取json文件
-    deserializeJson(doc, file);//读取解析json序列
-    if(mingzi=="删除"){buint==0 ? doc.remove(dongint) : doc[dongint].remove(buint);}
-    else if(mingzi=="随机训练"){randomSeed(analogRead(A0));
-          int ran[9]={0,30,45,60,90,120,135,150,180}; doc[dongint][0]["name"]=mingzi;
+    String mingzi = espweb.arg("mingzi"); int dong = espweb.arg("dongzuo").toInt(); int buint = espweb.arg("bushu").toInt();
+    DynamicJsonDocument doc(8000); file = SPIFFS.open("/config.json", "r"); deserializeJson(doc, file);
+    if(mingzi=="删除"){buint==0 ? doc.remove(dong) : doc[dong].remove(buint);}
+    else if(mingzi=="随机训练"){randomSeed(analogRead(A0)); int ran[9]={0,30,45,60,90,120,135,150,180}; doc[dong][0]["name"]=mingzi;
        for(int i=1;i<=buint;i++){int qv,wv,ev,rv,tv,yv,uv,iv;
           wv=random(181);ev=random(181);yv=random(181);uv=random(181);
-          wv>90?qv=random(0,91):qv=random(90,181);
-          ev>90?rv=random(0,91):rv=random(90,181);
-          yv>90?tv=random(0,91):tv=random(90,181);
-          uv>90?iv=random(0,91):iv=random(90,181);
-          doc[dongint][i]["q"]=qv; doc[dongint][i]["w"]=wv;
-          doc[dongint][i]["e"]=ev; doc[dongint][i]["r"]=rv;
-          doc[dongint][i]["t"]=tv; doc[dongint][i]["y"]=yv;
-          doc[dongint][i]["u"]=uv; doc[dongint][i]["i"]=iv;}}
-    else{ doc[dongint][0]["name"]=mingzi;
-          doc[dongint][buint]["q"]=q.read();
-          doc[dongint][buint]["w"]=w.read();
-          doc[dongint][buint]["e"]=e.read();
-          doc[dongint][buint]["r"]=r.read();
-          doc[dongint][buint]["t"]=t.read();
-          doc[dongint][buint]["y"]=y.read();
-          doc[dongint][buint]["u"]=u.read();
-          doc[dongint][buint]["i"]=i.read();}
-          file = SPIFFS.open("/config.json", "w");//准备写入json文件
-          serializeJson(doc, file); file.close();}//写入json序列
+          wv>90?qv=random(0,91):qv=random(90,181); ev>90?rv=random(0,91):rv=random(90,181);
+          yv>90?tv=random(0,91):tv=random(90,181); uv>90?iv=random(0,91):iv=random(90,181);
+          doc[dong][i]["q"]=qv; doc[dong][i]["w"]=wv; doc[dong][i]["e"]=ev; doc[dong][i]["r"]=rv;
+          doc[dong][i]["t"]=tv; doc[dong][i]["y"]=yv; doc[dong][i]["u"]=uv; doc[dong][i]["i"]=iv;}}
+    else{ doc[dong][0]["name"]=mingzi;
+          doc[dong][buint]["q"]=q.read(); doc[dong][buint]["w"]=w.read(); doc[dong][buint]["e"]=e.read(); doc[dong][buint]["r"]=r.read();
+          doc[dong][buint]["t"]=t.read(); doc[dong][buint]["y"]=y.read(); doc[dong][buint]["u"]=u.read(); doc[dong][buint]["i"]=i.read();}
+    file = SPIFFS.open("/config.json", "w"); serializeJson(doc, file); file.close();}
 void handleA0(){ //读取json文件
-    String se[8]{"q","w","e","r","t","y","u","i"},html; 
-    DynamicJsonDocument doc(8000);//建立json对象
-    File file = SPIFFS.open("/config.json", "r");//读取json文件 
-    deserializeJson(doc, file);//解析json文件
-    for(int j=doc.size()-1;j>=0;j--){ 
-      html+="<form>d<input type=number style=width:40px size=1 name=d oninput=dd.value=this.value value=500 onchange=setpwm(";
-      html+=j+10; html+=")><input  type=range name=dd id=";
-      html+=j+10; html+=" min=1 max=999 oninput=d.value=this.value onchange=setpwm(";
-      html+=j+10; html+=")></form>";
-      html+="<button onclick=sendbufa("; html+=j; html+=",0)>";
-      html+=j; html+="："; html+=doc[j][0]["name"].as<String>(); 
-      html+="</button>速度控制<br>";
-      for(int k=1;k<doc[j].size();k++){html+=k;
-        html+="<button onclick=sendbufa("; 
-        html+=j; html+=","; html+=k; html+=")>";
-        for(int i=0;i<8;i++){html+=se[i]+doc[j][k][se[i]].as<int>();} 
-        html+="</button><br>";}}
+    String se[8]{"q","w","e","r","t","y","u","i"},html; DynamicJsonDocument doc(8000); file = SPIFFS.open("/config.json", "r"); 
+    deserializeJson(doc, file); for(int j=doc.size()-1;j>=0;j--){ 
+      html+="<form>间隔<input type=number style=width:45px name=d oninput=dd.value=this.value value=100 onchange=setpwm(";
+      html+=j+10; html+=")><input  type=range name=dd id="; html+=j+10; html+=" max=200 oninput=d.value=this.value onchange=setpwm(";
+      html+=j+10; html+=")><br>速度<input type=number style=width:45px name=s oninput=ss.value=this.value value=30 onchange=setpds(";
+      html+=j+100; html+=")><input type=range name=ss id="; html+=j+100; html+=" max=200 oninput=s.value=this.value onchange=setpds(";
+      html+=j+100; html+=")><br></form>"; html+="<button onclick=sendbufa("; html+=j; html+=",0)>";
+      html+=j; html+="："; html+=doc[j][0]["name"].as<String>();  html+="</button>速度控制<br>";
+      for(int k=1;k<doc[j].size();k++){html+=k; html+="<button onclick=sendbufa("; html+=j; html+=","; html+=k; html+=")>";
+        for(int i=0;i<8;i++){html+=se[i]+doc[j][k][se[i]].as<int>();}  html+="</button><br>";}}
     file.close(); espweb.send(200, "text/html", html);}
-void cmddanbu(){ting=!ting; //执行json命令
-        String dong = espweb.arg("dong"); int dongint = dong.toInt();
-        String bufa = espweb.arg("bufa"); int bufaint = bufa.toInt();
-        DynamicJsonDocument doc(8000);//建立json对象
-        File file = SPIFFS.open("/config.json", "r");//读取json文件 
-        deserializeJson(doc, file);//解析json文件
-    if(bufaint==0){while(ting){if(!ting){break;}
-      for(int n=1; n<doc[dongint].size(); n++){if(!ting){break;}
-        for(int k=0;k<ms*2;k++){espweb.handleClient();delay(1);}
-        q.write(doc[dongint][n]["q"].as<int>()); 
-        w.write(doc[dongint][n]["w"].as<int>());
-        e.write(doc[dongint][n]["e"].as<int>()); 
-        r.write(doc[dongint][n]["r"].as<int>());
-        t.write(doc[dongint][n]["t"].as<int>()); 
-        y.write(doc[dongint][n]["y"].as<int>());
-        u.write(doc[dongint][n]["u"].as<int>()); 
-        i.write(doc[dongint][n]["i"].as<int>());}}}
-   else{q.write(doc[dongint][bufaint]["q"].as<int>()); 
-        w.write(doc[dongint][bufaint]["w"].as<int>());
-        e.write(doc[dongint][bufaint]["e"].as<int>()); 
-        r.write(doc[dongint][bufaint]["r"].as<int>());
-        t.write(doc[dongint][bufaint]["t"].as<int>()); 
-        y.write(doc[dongint][bufaint]["y"].as<int>());
-        u.write(doc[dongint][bufaint]["u"].as<int>()); 
-        i.write(doc[dongint][bufaint]["i"].as<int>());}
-        file.close();}
-void loop(){espweb.handleClient();ArduinoOTA.handle();
-    dnsServer.processNextRequest();}
-void chongzhi(){if(analogRead(A0)>11){setwifi();
-     espwifi.resetSettings(); ESP.reset();}}
-void setwifi(){String setpass = espweb.arg("setpass"); 
-  DynamicJsonDocument doc(50);File file=SPIFFS.open("/pass.json", "w");
-  doc["pass"]=setpass;  serializeJson(doc,file);file.close();
-  espweb.sendHeader("Location","/"); espweb.send(303);}
-void formatf(){SPIFFS.format(); espweb.sendHeader("Location","/");espweb.send(303);}
-void fuwei(){espweb.send(200,"text/html",head+body); delay(1000); ESP.reset();}
-void delf(){SPIFFS.remove(espweb.arg("delf"));delay(1000);
-            espweb.sendHeader("Location","/");espweb.send(303);} 
+void cmddanbu(){ting=!ting;//执行json命令
+        int sv[8]; String sn[8]{"q","w","e","r","t","y","u","i"};
+        int dong = espweb.arg("dong").toInt(); int bufa = espweb.arg("bufa").toInt();
+        DynamicJsonDocument doc(8000); file = SPIFFS.open("/config.json", "r"); deserializeJson(doc, file);
+    while(ting){for(int n=1; n<doc[dong].size(); n++){  
+        ceju(); float limi=pulseIn(D0,1)/58;
+        while(limi<20){if(ting==0)break; delaybu(99);
+             for(int m=0;m<3;m++){if(ting==0)break;for(int n=1; n<doc[3].size(); n++){
+                 if(ting==0)break;for(int i=0;i<8;i++)sv[i]=doc[3][n][sn[i]]; 
+                 danbu(sv[0],sv[1],sv[2],sv[3],sv[4],sv[5],sv[6],sv[7]);delaybu(ms);} } 
+             ceju(); limi=pulseIn(D0,1)/58; if(limi>20)delaybu(99);}
+        if(ting==0)break; int m=n; if(bufa!=0){m=bufa;n=doc[dong].size();}
+        for(int i=0;i<8;i++)sv[i]=doc[dong][m][sn[i]]; 
+        danbu(sv[0],sv[1],sv[2],sv[3],sv[4],sv[5],sv[6],sv[7]); 
+        if(bufa!=0)ting=0; delaybu(ms); }}
+    file.close();}
+void ceju(){digitalWrite(D4,0); delayMicroseconds(5);digitalWrite(D4,1);delayMicroseconds(10); digitalWrite(D4,0);}
+void delaybu(int j){ for(int k=0;k<j;k++){espweb.handleClient();dnsServer.processNextRequest();delay(10);} }
+void danbu(int q2,int w2,int e2,int r2,int t2,int y2,int u2,int i2){
+   int q1=q.read(),w1=w.read(),e1=e.read(),r1=r.read(),t1=t.read(),y1=y.read(),u1=u.read(),i1=i.read();
+   while(q1!=q2 || w1!=w2 || e1!=e2 || r1!=r2 || t1!=t2 || y1!=y2 || u1!=u2 || i1!=i2){if(ting==0)break;
+        if(q1!=q2){q2>q1 ? q1++:q1--;} q.write(q1); if(w1!=w2){w2>w1 ? w1++:w1--;} w.write(w1); 
+        if(e1!=e2){e2>e1 ? e1++:e1--;} e.write(e1); if(r1!=r2){r2>r1 ? r1++:r1--;} r.write(r1); 
+        if(t1!=t2){t2>t1 ? t1++:t1--;} t.write(t1); if(y1!=y2){y2>y1 ? y1++:y1--;} y.write(y1); 
+        if(u1!=u2){u2>u1 ? u1++:u1--;} u.write(u1); if(i1!=i2){i2>i1 ? i1++:i1--;} i.write(i1);
+        for(int k=0;k<ds;k++){espweb.handleClient();delayMicroseconds(100);} } }  
+void loop(){espweb.handleClient();delay(10);ArduinoOTA.handle(); delay(10);  dnsServer.processNextRequest();delay(10);}
+void chongzhi(){if(digitalRead(D3)==0){setwifi(); delay(999); ESP.reset();}}
+void setwifi(){espwifi.resetSettings(); DynamicJsonDocument doc(50);file=SPIFFS.open("/pass.json","w");doc["pass"]=espweb.arg("setpass");
+     serializeJson(doc,file);file.close();espweb.sendHeader("Location","/");espweb.send(303);}
+void formatf(){SPIFFS.format();espweb.sendHeader("Location","/");espweb.send(303);}
+void fuwei(){ESP.reset();}
+void delf(){SPIFFS.remove(espweb.arg("delf"));delay(999); espweb.sendHeader("Location","/");espweb.send(303);} 
 void handleRoot(){espweb.send(200, "text/html", sendHTML());}
-String sendHTML(){ String html; html+=head;
-  html+="esp8266ID："+ssid+"<p>";
-  html+="路由器SSID："; html+=WiFi.SSID(); html+="<p>";
+String sendHTML(){ String html, ssid = "ESP"+String(ESP.getChipId(),HEX); 
+  html+="<!DOCTYPE html><html><head><meta charset=UTF-8><style>a{TEXT-DECORATION:none}</style>";
+  html+="<meta name=viewport content=\"width=device-width,initial-scale=1.5\"></head><body><p>"; 
+  html+="esp8266ID："+ssid+"<p>"; html+="路由器SSID："; html+=WiFi.SSID(); html+="<p>";
   html+="esp8266IP："; html+=WiFi.localIP().toString(); html+="<p>";
   html+="<form action=/upload name=form1 method=POST enctype=multipart/form-data>";
   html+="<input type=file name=data onchange=document.form1.submit()></form><p>" ;
   FSInfo fsinfo; SPIFFS.info(fsinfo); 
   html+="可用空间--"; html+=fsinfo.totalBytes; html+="<p>";
   html+="已用空间--"; html+=fsinfo.usedBytes; html+="<p>";
-  Dir dir=SPIFFS.openDir("/");while(dir.next()){html+="<a href=";
+  Dir dir=SPIFFS.openDir("/");while(dir.next()){
+  html+="<form action=/delf method=post><a href=";
   html+=dir.fileName(); html+=">"; html+=dir.fileName();
-  html+="</a>"; html+="--"; html+=dir.fileSize(); html+="<p>";
-  html+="<form action=/delf method=post><input name=delf value=";
+  html+="</a>--"; html+=dir.fileSize(); html+="<input name=delf style=width:0px value=";
   html+=dir.fileName();html+="><input type=submit value=删除></form><p>";}
-  html+="<form action=/fuwei method=POST>";
+  html+="<form action=/fuwei method=POST target=nm_iframe>";
   html+="<input type=submit value=重新启动></form><p>";
   html+="<form action=/setwifi method=post>";
   html+="<input name=setpass size=12><input type=submit value=重设wifi密码></form><p>";
   html+="<form action=/formatf method=POST>";
   html+="<input type=submit value=删除所有文件></form><p>";
-  html+="</body></html>"; return html;}
+  html+="<iframe name=nm_iframe style=display:none></iframe></body></html>"; return html;}
 void respondOK(){espweb.send(200);}
 void upload(){HTTPUpload& upload = espweb.upload();
-  if(upload.status == UPLOAD_FILE_START){                     // 如果上传状态为UPLOAD_FILE_START
-  String filename = upload.filename;                        // 建立字符串变量用于存放上传文件名
-  if(!filename.startsWith("/")) filename = "/" + filename;  // 为上传文件名前加上"/"
-  file = SPIFFS.open(filename, "w"); }           // 在SPIFFS中建立文件用于写入用户上传的文件数据
-  else if(upload.status == UPLOAD_FILE_WRITE){          // 如果上传状态为UPLOAD_FILE_WRITE      
-  file.write(upload.buf, upload.currentSize);} // 向SPIFFS文件写入浏览器发来的文件数据
-  else if(upload.status == UPLOAD_FILE_END){file.close();
-  espweb.sendHeader("Location","/");espweb.send(303);}}// 发送相应代码303（重定向到新页面）                               
-void handleall(){String path=espweb.uri();
-  if(path.endsWith("/")){path="/index.html";} 
-  if(SPIFFS.exists(path)){File file = SPIFFS.open(path,"r");
-  espweb.streamFile(file, filetype(path));file.close();}
+  if(upload.status==UPLOAD_FILE_START){file = SPIFFS.open("/"+upload.filename,"w");}           
+  else if(upload.status==UPLOAD_FILE_WRITE){file.write(upload.buf,upload.currentSize);} 
+  else if(upload.status==UPLOAD_FILE_END){file.close();espweb.sendHeader("Location","/");
+                                          espweb.send(303);}}                               
+void handleall(){String filename=espweb.uri();
+  if(SPIFFS.exists(filename)){file = SPIFFS.open(filename,"r");
+  espweb.streamFile(file, filetype(filename));file.close();}
   else{handleRoot();}}
 String filetype(String filename){
   if(filename.endsWith(".htm")) return "text/html";

@@ -5,35 +5,46 @@
     <input type="submit" value="重新启动"><a href="/">返回首页</a></form><p>
     
     <form>
-    q<input type=number style=width:40px size=1 name="q" oninput="qq.value=this.value" value=90 onchange="setpwm(1)"><input  type="range" name="qq" id="1" min="1" max="180" oninput="q.value=this.value" onchange="setpwm(1)"><br>
-    w<input type=number style=width:40px size=1 name="w" oninput="ww.value=this.value" value=90 onchange="setpwm(2)"><input  type="range" name="ww" id="2" min="1" max="180" oninput="w.value=this.value" onchange="setpwm(2)"><br>
-    e<input type=number style=width:40px size=1 name="e" oninput="ee.value=this.value" value=90 onchange="setpwm(3)"><input  type="range" name="ee" id="3" min="1" max="180" oninput="e.value=this.value" onchange="setpwm(3)"><br>
-    r<input type=number style=width:40px size=1 name="r" oninput="rr.value=this.value" value=90 onchange="setpwm(4)"><input  type="range" name="rr" id="4" min="1" max="180" oninput="r.value=this.value" onchange="setpwm(4)"><br>
-    t<input type=number style=width:40px size=1 name="t" oninput="tt.value=this.value" value=90 onchange="setpwm(5)"><input  type="range" name="tt" id="5" min="1" max="180" oninput="t.value=this.value" onchange="setpwm(5)"><br>
-    y<input type=number style=width:40px size=1 name="y" oninput="yy.value=this.value" value=90 onchange="setpwm(6)"><input  type="range" name="yy" id="6" min="1" max="180" oninput="y.value=this.value" onchange="setpwm(6)"><br>
-    u<input type=number style=width:40px size=1 name="u" oninput="uu.value=this.value" value=90 onchange="setpwm(7)"><input  type="range" name="uu" id="7" min="1" max="180" oninput="u.value=this.value" onchange="setpwm(7)"><br>
-    i<input type=number style=width:40px size=1 name="i" oninput="ii.value=this.value" value=90 onchange="setpwm(8)"><input  type="range" name="ii" id="8" min="1" max="180" oninput="i.value=this.value" onchange="setpwm(8)"><p>
-    d<input type=number style=width:40px size=1 name="d" oninput="dd.value=this.value" value=500 onchange="setpwm(9)"><input  type="range" name="dd" id="9" min="1" max="999" oninput="d.value=this.value" onchange="setpwm(9)"><br>
+    q<input type=number style=width:40px value=90 name=q oninput=qq.value=this.value onchange=setpwm(1)>
+          <input type=range id=1 max=180 value=90 name=qq oninput=q.value=this.value onchange=setpwm(1)><br>
+    w<input type=number style=width:40px value=90 name=w oninput=ww.value=this.value onchange=setpwm(2)>
+          <input type=range id=2 max=180 value=90 name=ww oninput=w.value=this.value onchange=setpwm(2)><br>
+    e<input type=number style=width:40px value=90 name=e oninput=ee.value=this.value onchange=setpwm(3)>
+          <input type=range id=3 max=180 value=90 name=ee oninput=e.value=this.value onchange=setpwm(3)><br>
+    r<input type=number style=width:40px value=90 name=r oninput=rr.value=this.value onchange=setpwm(4)>
+          <input type=range id=4 max=180 value=90 name=rr oninput=r.value=this.value onchange=setpwm(4)><br>
+    t<input type=number style=width:40px value=90 name=t oninput=tt.value=this.value onchange=setpwm(5)>
+          <input type=range id=5 max=180 value=90 name=tt oninput=t.value=this.value onchange=setpwm(5)><br>
+    y<input type=number style=width:40px value=90 name=y oninput=yy.value=this.value onchange=setpwm(6)>
+          <input type=range id=6 max=180 value=90 name=yy oninput=y.value=this.value onchange=setpwm(6)><br>
+    u<input type=number style=width:40px value=90 name=u oninput=uu.value=this.value onchange=setpwm(7)>
+          <input type=range id=7 max=180 value=90 name=uu oninput=u.value=this.value onchange=setpwm(7)><br>
+    i<input type=number style=width:40px value=90 name=i oninput=ii.value=this.value onchange=setpwm(8)>
+          <input type=range id=8 max=180 value=90 name=ii oninput=i.value=this.value onchange=setpwm(8)><p>
+ 间隔<input type=number style=width:45px value=100 name=d oninput=dd.value=this.value onchange=setpwm(9)>
+         <input type=range id=9 max=200 value=100 name=dd oninput=d.value=this.value onchange=setpwm(9)><br>
+ 速度<input type=number style=width:45px value=30 name=s oninput=ss.value=this.value onchange=setpds(0)>
+         <input type=range id=0 max=200 value=30 name=ss oninput=s.value=this.value onchange=setpds(0)><br>
     </form><p>
       
     <form id="form1" action="/cmdsave" method="post" target="hiddenIFrame">
     <input type="submit" value="保存">
     <input style=width:60px name="mingzi" value="卡点01">
-    <input type=number style=width:30px style=width:15px name="dongzuo" value="11">
+    <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
     <input type=number style=width:30px style=width:15px name="bushu" value="1">
     </form><p>
 
     <form id="form2" action="/cmdsave" method="post" target="hiddenIFrame">
     <input type="submit" value="保存">
     <input style=width:60px name="mingzi" value="随机训练">
-    <input type=number style=width:30px style=width:15px name="dongzuo" value="11">
+    <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
     <input type=number style=width:30px style=width:15px name="bushu" value="5">
     </form><p>
   
     <form id="form3" action="/cmdsave" method="post" target="hiddenIFrame">
     <input type="submit" value="删除">
     <input style=width:60px name="mingzi" value="删除">
-    <input type=number style=width:30px style=width:15px name="dongzuo" value="9">
+    <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
     <input type=number style=width:30px style=width:15px name="bushu" value="0">
     </form><p>
   
@@ -43,6 +54,9 @@
     <script type="text/javascript">
     function setpwm(m){var xhttp=new XMLHttpRequest(); m>9?n=9:n=m;
         xhttp.open("GET","setpwm?"+n+"="+document.getElementById(m).value,true);xhttp.send();}
+
+    function setpds(m){var xhttp=new XMLHttpRequest();
+        xhttp.open("GET","setpwm?0="+document.getElementById(m).value,true);xhttp.send();}
     
     function sendbufa(j,k) {var xhttp = new XMLHttpRequest();
         xhttp.open("GET", "cmddanbu?dong="+j+"&bufa="+k, true);xhttp.send();}

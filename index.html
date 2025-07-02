@@ -1,98 +1,64 @@
 <!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name=viewport content="width=device-width,initial-scale=1.5"></head><body>
+    <meta name=viewport content="width=device-width,initial-scale=1.5"></head><body>
   
-  A0=<span id="A0State"></span>
-  
-  <form>
-  q<input  size=1 name="q" oninput="qq.value=this.value" value=90 onchange="setpwm(1)"><input  type="range" name="qq" id="1" min="1" max="180" oninput="q.value=this.value" onchange="setpwm(1)"><br>
-  w<input  size=1 name="w" oninput="ww.value=this.value" value=90 onchange="setpwm(2)"><input  type="range" name="ww" id="2" min="1" max="180" oninput="w.value=this.value" onchange="setpwm(2)"><br>
-  e<input  size=1 name="e" oninput="ee.value=this.value" value=90 onchange="setpwm(3)"><input  type="range" name="ee" id="3" min="1" max="180" oninput="e.value=this.value" onchange="setpwm(3)"><br>
-  r<input  size=1 name="r" oninput="rr.value=this.value" value=90 onchange="setpwm(4)"><input  type="range" name="rr" id="4" min="1" max="180" oninput="r.value=this.value" onchange="setpwm(4)"><br>
-  t<input  size=1 name="t" oninput="tt.value=this.value" value=90 onchange="setpwm(5)"><input  type="range" name="tt" id="5" min="1" max="180" oninput="t.value=this.value" onchange="setpwm(5)"><br>
-  y<input  size=1 name="y" oninput="yy.value=this.value" value=90 onchange="setpwm(6)"><input  type="range" name="yy" id="6" min="1" max="180" oninput="y.value=this.value" onchange="setpwm(6)"><br>
-  u<input  size=1 name="u" oninput="uu.value=this.value" value=90 onchange="setpwm(7)"><input  type="range" name="uu" id="7" min="1" max="180" oninput="u.value=this.value" onchange="setpwm(7)"><br>
-  i<input  size=1 name="i" oninput="ii.value=this.value" value=90 onchange="setpwm(8)"><input  type="range" name="ii" id="8" min="1" max="180" oninput="i.value=this.value" onchange="setpwm(8)"><br>
-  延时<input  size=1 name="d" oninput="dd.value=this.value" value=12 onchange="setpwm(9)"><input  type="range" name="dd" id="9" min="1" max="255" oninput="d.value=this.value" onchange="setpwm(9)"><br>
-  </form><p>
-  
-  保存步骤<br>
-  <button  style=width:25px type="button" onclick="sendData(0)">0</button>
-  <button  style=width:25px type="button" onclick="sendData(1)">1</button>
-  <button  style=width:25px type="button" onclick="sendData(2)">2</button>
-  <button  style=width:25px type="button" onclick="sendData(3)">3</button>
-  <button  style=width:25px type="button" onclick="sendData(4)">4</button>
-  <button  style=width:25px type="button" onclick="sendData(5)">5</button>
-  <button  style=width:25px type="button" onclick="sendData(6)">6</button><br>
-  <button  style=width:25px type="button" onclick="sendData(7)">7</button>
-  <button  style=width:25px type="button" onclick="sendData(8)">8</button>
-  <button  style=width:25px type="button" onclick="sendData(9)">9</button>
-  <button  style=width:25px type="button" onclick="sendData(10)">10</button>
-  <button  style=width:25px type="button" onclick="sendData(11)">11</button>
-  <button  style=width:25px type="button" onclick="sendData(12)">12</button>
-  <button  style=width:25px type="button" onclick="sendData(13)">13</button><br>
-  <button  style=width:25px type="button" onclick="sendData(14)">14</button>
-  <button  style=width:25px type="button" onclick="sendData(15)">15</button>
-  <button  style=width:25px type="button" onclick="sendData(16)">16</button>
-  <button  style=width:25px type="button" onclick="sendData(17)">17</button>
-  <button  style=width:25px type="button" onclick="sendData(18)">18</button>
-  <button  style=width:25px type="button" onclick="sendData(19)">19</button><p>
-  
-  <form action="/cmdsave" method="post" target="hiddenIFrame">
-  <input type="submit" value="向前">
-  <input  style=width:25px name="from" value="0">到
-  <input  style=width:25px name="to" value="4">步
-  <input  style=width:25px name="cishu" value="5">次
-  </form>
+    <p><form action="/fuwei" method="post" target="hiddenIFrame">
+    <input type="submit" value="重新启动"><a href="/">返回首页</a></form><p>
+    
+    <form>
+    q<input type=number style=width:40px size=1 name="q" oninput="qq.value=this.value" value=90 onchange="setpwm(1)"><input  type="range" name="qq" id="1" min="1" max="180" oninput="q.value=this.value" onchange="setpwm(1)"><br>
+    w<input type=number style=width:40px size=1 name="w" oninput="ww.value=this.value" value=90 onchange="setpwm(2)"><input  type="range" name="ww" id="2" min="1" max="180" oninput="w.value=this.value" onchange="setpwm(2)"><br>
+    e<input type=number style=width:40px size=1 name="e" oninput="ee.value=this.value" value=90 onchange="setpwm(3)"><input  type="range" name="ee" id="3" min="1" max="180" oninput="e.value=this.value" onchange="setpwm(3)"><br>
+    r<input type=number style=width:40px size=1 name="r" oninput="rr.value=this.value" value=90 onchange="setpwm(4)"><input  type="range" name="rr" id="4" min="1" max="180" oninput="r.value=this.value" onchange="setpwm(4)"><br>
+    t<input type=number style=width:40px size=1 name="t" oninput="tt.value=this.value" value=90 onchange="setpwm(5)"><input  type="range" name="tt" id="5" min="1" max="180" oninput="t.value=this.value" onchange="setpwm(5)"><br>
+    y<input type=number style=width:40px size=1 name="y" oninput="yy.value=this.value" value=90 onchange="setpwm(6)"><input  type="range" name="yy" id="6" min="1" max="180" oninput="y.value=this.value" onchange="setpwm(6)"><br>
+    u<input type=number style=width:40px size=1 name="u" oninput="uu.value=this.value" value=90 onchange="setpwm(7)"><input  type="range" name="uu" id="7" min="1" max="180" oninput="u.value=this.value" onchange="setpwm(7)"><br>
+    i<input type=number style=width:40px size=1 name="i" oninput="ii.value=this.value" value=90 onchange="setpwm(8)"><input  type="range" name="ii" id="8" min="1" max="180" oninput="i.value=this.value" onchange="setpwm(8)"><p>
+    d<input type=number style=width:40px size=1 name="d" oninput="dd.value=this.value" value=500 onchange="setpwm(9)"><input  type="range" name="dd" id="9" min="1" max="999" oninput="d.value=this.value" onchange="setpwm(9)"><br>
+    </form><p>
+      
+    <form id="form1" action="/cmdsave" method="post" target="hiddenIFrame">
+    <input type="submit" value="保存">
+    <input style=width:60px name="mingzi" value="卡点01">
+    <input type=number style=width:30px style=width:15px name="dongzuo" value="11">
+    <input type=number style=width:30px style=width:15px name="bushu" value="1">
+    </form><p>
 
-  <form action="/cmdsave" method="post" target="hiddenIFrame">
-  <input type="submit" value="向后">
-  <input  style=width:25px name="from" value="5">到
-  <input  style=width:25px name="to" value="9">步
-  <input  style=width:25px name="cishu" value="5">次
-  </form>
-
-  <form action="/cmdsave" method="post" target="hiddenIFrame">
-  <input type="submit" value="左转">
-  <input  style=width:25px name="from" value="10">到
-  <input  style=width:25px name="to" value="14">步
-  <input  style=width:25px name="cishu" value="5">次
-  </form>
-
-  <form action="/cmdsave" method="post" target="hiddenIFrame">
-  <input type="submit" value="右转">
-  <input  style=width:25px name="from" value="15">到
-  <input  style=width:25px name="to" value="19">步
-  <input  style=width:25px name="cishu" value="5">次
-  </form><p>
+    <form id="form2" action="/cmdsave" method="post" target="hiddenIFrame">
+    <input type="submit" value="保存">
+    <input style=width:60px name="mingzi" value="随机训练">
+    <input type=number style=width:30px style=width:15px name="dongzuo" value="11">
+    <input type=number style=width:30px style=width:15px name="bushu" value="5">
+    </form><p>
   
-  <form action="/respwm" method="post" target="hiddenIFrame">
-  q<input  style=width:25px name="-q" value="90">
-  w<input  style=width:25px name="-w" value="90">
-  e<input  style=width:25px name="-e" value="90">
-  r<input  style=width:25px name="-r" value="90"><br>
-  t<input  style=width:25px name="-t" value="90">
-  y<input  style=width:25px name="-y" value="90">
-  u<input  style=width:25px name="-u" value="90">
-  i<input  style=width:25px name="-i" value="90">
-  <input type="submit" value="复位">
-  </form><p></p>
-
-  <span  id="readee"></span>
+    <form id="form3" action="/cmdsave" method="post" target="hiddenIFrame">
+    <input type="submit" value="删除">
+    <input style=width:60px name="mingzi" value="删除">
+    <input type=number style=width:30px style=width:15px name="dongzuo" value="9">
+    <input type=number style=width:30px style=width:15px name="bushu" value="0">
+    </form><p>
   
-  <script>
-  function setpwm(m){var xhttp=new XMLHttpRequest();
-      xhttp.open("GET","setpwm?"+m+"="+document.getElementById(m).value,true);xhttp.send();}
+    <span id="A0State"></span>
+     
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript">
+    function setpwm(m){var xhttp=new XMLHttpRequest(); m>9?n=9:n=m;
+        xhttp.open("GET","setpwm?"+n+"="+document.getElementById(m).value,true);xhttp.send();}
+    
+    function sendbufa(j,k) {var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "cmddanbu?dong="+j+"&bufa="+k, true);xhttp.send();}
   
-  function sendData(pwm) {var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("readee").innerHTML = this.responseText;}};
-    xhttp.open("GET", "saveee?pwmvol="+pwm, true);xhttp.send();}
-  
-  setInterval(function() {getData();}, 2000);
-  function getData() {var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("A0State").innerHTML =this.responseText;}};
-    xhttp.open("GET", "readA0", true);xhttp.send();}
-  </script>
-  <iframe style="display:none" name="hiddenIFrame" id="hiddenIFrame"/></body></html>
-  
+    function fuwei() {var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "tingzhi", true);xhttp.send();}
+    
+    //setInterval(function() {getData();}, 2000);
+    function getData() {var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("A0State").innerHTML =this.responseText;}};
+      xhttp.open("GET", "readA0", true);xhttp.send();}
+    
+    //$(function() {getData();});
+    $(document).ready(function(){getData();})
+    $("form").submit( function(){getData();} );
+    </script>
+    <iframe style="display:none" name="hiddenIFrame" id="hiddenIFrame"/></body></html>
+    

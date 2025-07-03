@@ -88,12 +88,19 @@ void jiange(int j){ for(int k=0;k<j*10;k++){espweb.handleClient();ArduinoOTA.han
                                          dnsServer.processNextRequest();delayMicroseconds(10);} }
 void danbu(int q2,int w2,int e2,int r2,int t2,int y2,int u2,int i2){
    int q1=q.read(),w1=w.read(),e1=e.read(),r1=r.read(),t1=t.read(),y1=y.read(),u1=u.read(),i1=i.read();
+   int abssv[8]={ abs(q2-q1),abs(w2-w1),abs(e2-e1),abs(r2-r1),abs(t2-t1),abs(y2-y1),abs(u2-u1),abs(i2-i1) }; 
+   int maxsv=abssv[0]; for(int i=0;i<8;i++){ if(abssv[i]>maxsv)maxsv=abssv[i];}
    while(q1!=q2 || w1!=w2 || e1!=e2 || r1!=r2 || t1!=t2 || y1!=y2 || u1!=u2 || i1!=i2){if(ting==0)break;
-        if(q1!=q2){q2>q1 ? q1++:q1--;} q.write(q1); if(w1!=w2){w2>w1 ? w1++:w1--;} w.write(w1); 
-        if(e1!=e2){e2>e1 ? e1++:e1--;} e.write(e1); if(r1!=r2){r2>r1 ? r1++:r1--;} r.write(r1); 
-        if(t1!=t2){t2>t1 ? t1++:t1--;} t.write(t1); if(y1!=y2){y2>y1 ? y1++:y1--;} y.write(y1); 
-        if(u1!=u2){u2>u1 ? u1++:u1--;} u.write(u1); if(i1!=i2){i2>i1 ? i1++:i1--;} i.write(i1);
-        jiange(ds); } }  
+       if(q1!=q2)q2>q1?q1++:q1--; q.writeMicroseconds(q1*11+500); 
+       if(w1!=w2)w2>w1?w1++:w1--; w.writeMicroseconds(w1*11+500); 
+       if(e1!=e2)e2>e1?e1++:e1--; e.writeMicroseconds(e1*11+500); 
+       if(r1!=r2)r2>r1?r1++:r1--; r.writeMicroseconds(r1*11+500); 
+       if(t1!=t2)t2>t1?t1++:t1--; t.writeMicroseconds(t1*11+500); 
+       if(y1!=y2)y2>y1?y1++:y1--; y.writeMicroseconds(y1*11+500); 
+       if(u1!=u2)u2>u1?u1++:u1--; u.writeMicroseconds(u1*11+500); 
+       if(i1!=i2)i2>i1?i1++:i1--; i.writeMicroseconds(i1*11+500);
+       jiange(ds); }
+        } 
 void loop(){espweb.handleClient();delay(10);ArduinoOTA.handle(); delay(10);  dnsServer.processNextRequest();delay(10);}
 void chongzhi(){if(digitalRead(D3)==0){setwifi(); delay(999); ESP.reset();}}
 void setwifi(){espwifi.resetSettings(); DynamicJsonDocument doc(50);file=SPIFFS.open("/pass.json","w");doc["pass"]=espweb.arg("setpass");

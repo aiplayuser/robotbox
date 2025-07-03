@@ -13,7 +13,7 @@ WiFiManager espwifi; ESP8266WebServer espweb(80); DNSServer dnsServer; Servo q,w
 int ms=100,ds=30; bool ting=0,ziyou=0;
 
 void setup(){q.attach(D1);w.attach(D2);e.attach(D5);r.attach(D6); t.attach(D7);y.attach(D8);u.attach(D9);i.attach(D10);
-  q.write(90);w.write(90);e.write(90);r.write(90);t.write(90);y.write(90);u.write(90);i.write(90);
+  q.write(0);w.write(180);e.write(180);r.write(0);t.write(180);y.write(0);u.write(0);i.write(180);
   pinMode(D0, INPUT); pinMode(D3, INPUT_PULLUP); pinMode(D4, OUTPUT); digitalWrite(D4,0); randomSeed(analogRead(A0));
   
   SPIFFS.begin();String ssid = "ESP"+String(ESP.getChipId(),HEX);
@@ -86,19 +86,19 @@ float ceju(){digitalWrite(D4,0); delayMicroseconds(5);digitalWrite(D4,1);delayMi
              digitalWrite(D4,0); return pulseIn(D0,1)/58;}
 void jiange(int j){ for(int k=0;k<j*10;k++){espweb.handleClient();ArduinoOTA.handle();
                                          dnsServer.processNextRequest();delayMicroseconds(10);} }
-void danbu(int q2,int w2,int e2,int r2,int t2,int y2,int u2,int i2){
-   int q1=q.read(),w1=w.read(),e1=e.read(),r1=r.read(),t1=t.read(),y1=y.read(),u1=u.read(),i1=i.read();
-   int abssv[8]={ abs(q2-q1),abs(w2-w1),abs(e2-e1),abs(r2-r1),abs(t2-t1),abs(y2-y1),abs(u2-u1),abs(i2-i1) }; 
-   int maxsv=abssv[0]; for(int i=0;i<8;i++){ if(abssv[i]>maxsv)maxsv=abssv[i];}
-   while(q1!=q2 || w1!=w2 || e1!=e2 || r1!=r2 || t1!=t2 || y1!=y2 || u1!=u2 || i1!=i2){if(ting==0)break;
-       if(q1!=q2)q2>q1?q1++:q1--; q.writeMicroseconds(q1*11+500); 
-       if(w1!=w2)w2>w1?w1++:w1--; w.writeMicroseconds(w1*11+500); 
-       if(e1!=e2)e2>e1?e1++:e1--; e.writeMicroseconds(e1*11+500); 
-       if(r1!=r2)r2>r1?r1++:r1--; r.writeMicroseconds(r1*11+500); 
-       if(t1!=t2)t2>t1?t1++:t1--; t.writeMicroseconds(t1*11+500); 
-       if(y1!=y2)y2>y1?y1++:y1--; y.writeMicroseconds(y1*11+500); 
-       if(u1!=u2)u2>u1?u1++:u1--; u.writeMicroseconds(u1*11+500); 
-       if(i1!=i2)i2>i1?i1++:i1--; i.writeMicroseconds(i1*11+500);
+void danbu(float q2,float w2,float e2,float r2,float t2,float y2,float u2,float i2){
+   float q1=q.read(),w1=w.read(),e1=e.read(),r1=r.read(),t1=t.read(),y1=y.read(),u1=u.read(),i1=i.read();
+   float abssv[8]={ abs(q2-q1),abs(w2-w1),abs(e2-e1),abs(r2-r1),abs(t2-t1),abs(y2-y1),abs(u2-u1),abs(i2-i1) }; 
+   float maxsv=abssv[0]; for(int i=0;i<8;i++){ if(abssv[i]>maxsv)maxsv=abssv[i];}
+   while(abs(q2-q1)>1 || abs(w2-w1)>1 || abs(e2-e1)>1 || abs(r2-r1)>1 || abs(t2-t1)>1 || abs(y2-y1)>1 || abs(u2-u1)>1 || abs(i2-i1)>1){if(ting==0)break;
+       if(abs(q2-q1)>1)q2>q1?q1+=abssv[0]/maxsv:q1-=abssv[0]/maxsv; q.write(q1); 
+       if(abs(w2-w1)>1)w2>w1?w1+=abssv[1]/maxsv:w1-=abssv[1]/maxsv; w.write(w1); 
+       if(abs(e2-e1)>1)e2>e1?e1+=abssv[2]/maxsv:e1-=abssv[2]/maxsv; e.write(e1); 
+       if(abs(r2-r1)>1)r2>r1?r1+=abssv[3]/maxsv:r1-=abssv[3]/maxsv; r.write(r1); 
+       if(abs(t2-t1)>1)t2>t1?t1+=abssv[4]/maxsv:t1-=abssv[4]/maxsv; t.write(t1); 
+       if(abs(y2-y1)>1)y2>y1?y1+=abssv[5]/maxsv:y1-=abssv[5]/maxsv; y.write(y1); 
+       if(abs(u2-u1)>1)u2>u1?u1+=abssv[6]/maxsv:u1-=abssv[6]/maxsv; u.write(u1); 
+       if(abs(i2-i1)>1)i2>i1?i1+=abssv[7]/maxsv:i1-=abssv[7]/maxsv; i.write(i1);
        jiange(ds); }
         } 
 void loop(){espweb.handleClient();delay(10);ArduinoOTA.handle(); delay(10);  dnsServer.processNextRequest();delay(10);}

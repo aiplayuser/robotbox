@@ -1,78 +1,85 @@
 <!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name=viewport content="width=device-width,initial-scale=1.5"></head><body>
-  
-    <p><form action="/fuwei" method="post" target="hiddenIFrame">
-    <input type="submit" value="重新启动"><a href="/">返回首页</a></form><p>
+      <meta name=viewport content="width=device-width,initial-scale=1.5"></head><body>
     
-    <form>
-    q<input type=number style=width:40px value=90 name=q oninput=qq.value=this.value onchange=setpwm(1)>
-          <input type=range id=1 max=180 value=90 name=qq oninput=q.value=this.value onchange=setpwm(1)><br>
-    w<input type=number style=width:40px value=90 name=w oninput=ww.value=this.value onchange=setpwm(2)>
-          <input type=range id=2 max=180 value=90 name=ww oninput=w.value=this.value onchange=setpwm(2)><br>
-    e<input type=number style=width:40px value=90 name=e oninput=ee.value=this.value onchange=setpwm(3)>
-          <input type=range id=3 max=180 value=90 name=ee oninput=e.value=this.value onchange=setpwm(3)><br>
-    r<input type=number style=width:40px value=90 name=r oninput=rr.value=this.value onchange=setpwm(4)>
-          <input type=range id=4 max=180 value=90 name=rr oninput=r.value=this.value onchange=setpwm(4)><br>
-    t<input type=number style=width:40px value=90 name=t oninput=tt.value=this.value onchange=setpwm(5)>
-          <input type=range id=5 max=180 value=90 name=tt oninput=t.value=this.value onchange=setpwm(5)><br>
-    y<input type=number style=width:40px value=90 name=y oninput=yy.value=this.value onchange=setpwm(6)>
-          <input type=range id=6 max=180 value=90 name=yy oninput=y.value=this.value onchange=setpwm(6)><br>
-    u<input type=number style=width:40px value=90 name=u oninput=uu.value=this.value onchange=setpwm(7)>
-          <input type=range id=7 max=180 value=90 name=uu oninput=u.value=this.value onchange=setpwm(7)><br>
-    i<input type=number style=width:40px value=90 name=i oninput=ii.value=this.value onchange=setpwm(8)>
-          <input type=range id=8 max=180 value=90 name=ii oninput=i.value=this.value onchange=setpwm(8)><p>
- 间隔<input type=number style=width:45px value=100 name=d oninput=dd.value=this.value onchange=setpwm(9)>
-         <input type=range id=9 max=200 value=100 name=dd oninput=d.value=this.value onchange=setpwm(9)><br>
- 速度<input type=number style=width:45px value=30 name=s oninput=ss.value=this.value onchange=setpds(0)>
-         <input type=range id=0 max=200 value=30 name=ss oninput=s.value=this.value onchange=setpds(0)><br>
-    </form><p>
+      <p><form action="/fuwei" method="post" target="hiddenIFrame">
+      <input type="submit" value="重新启动"><a href="/">返回首页</a></form><p>
       
-    <form id="form1" action="/cmdsave" method="post" target="hiddenIFrame">
-    <input type="submit" value="保存">
-    <input style=width:60px name="mingzi" value="卡点01">
-    <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
-    <input type=number style=width:30px style=width:15px name="bushu" value="1">
-    </form><p>
-
-    <form id="form2" action="/cmdsave" method="post" target="hiddenIFrame">
-    <input type="submit" value="保存">
-    <input style=width:60px name="mingzi" value="随机训练">
-    <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
-    <input type=number style=width:30px style=width:15px name="bushu" value="5">
-    </form><p>
+      <form>
+      q<input type=number style=width:40px value=90 name=q oninput=qq.value=this.value onchange=setpwm(1)>
+            <input type=range id=1 max=180 value=90 name=qq oninput=q.value=this.value onchange=setpwm(1)><br>
+      w<input type=number style=width:40px value=90 name=w oninput=ww.value=this.value onchange=setpwm(2)>
+            <input type=range id=2 max=180 value=90 name=ww oninput=w.value=this.value onchange=setpwm(2)><br>
+      e<input type=number style=width:40px value=90 name=e oninput=ee.value=this.value onchange=setpwm(3)>
+            <input type=range id=3 max=180 value=90 name=ee oninput=e.value=this.value onchange=setpwm(3)><br>
+      r<input type=number style=width:40px value=90 name=r oninput=rr.value=this.value onchange=setpwm(4)>
+            <input type=range id=4 max=180 value=90 name=rr oninput=r.value=this.value onchange=setpwm(4)><br>
+      t<input type=number style=width:40px value=90 name=t oninput=tt.value=this.value onchange=setpwm(5)>
+            <input type=range id=5 max=180 value=90 name=tt oninput=t.value=this.value onchange=setpwm(5)><br>
+      y<input type=number style=width:40px value=90 name=y oninput=yy.value=this.value onchange=setpwm(6)>
+            <input type=range id=6 max=180 value=90 name=yy oninput=y.value=this.value onchange=setpwm(6)><br>
+      u<input type=number style=width:40px value=90 name=u oninput=uu.value=this.value onchange=setpwm(7)>
+            <input type=range id=7 max=180 value=90 name=uu oninput=u.value=this.value onchange=setpwm(7)><br>
+      i<input type=number style=width:40px value=90 name=i oninput=ii.value=this.value onchange=setpwm(8)>
+            <input type=range id=8 max=180 value=90 name=ii oninput=i.value=this.value onchange=setpwm(8)><p>
+   间隔<input type=number style=width:45px value=100 name=d oninput=dd.value=this.value onchange=setpwm(9)>
+           <input type=range id=9 max=200 value=100 name=dd oninput=d.value=this.value onchange=setpwm(9)><br>
+   速度<input type=number style=width:45px value=30 name=s oninput=ss.value=this.value onchange=setpds(0)>
+           <input type=range id=0 max=200 value=30 name=ss oninput=s.value=this.value onchange=setpds(0)><br>
+      </form><p>
+        
+        <form id="form1" action="/cmdsave" method="post" target="hiddenIFrame">
+      <input type="submit" style=background:#84C1FF;font-weight:bold value="执行">
+      <input style=width:60px name="mingzi" value="自由活动">
+      <input type=number style=width:30px style=width:15px name="dongzuo" value="0">
+      <input type=number style=width:30px style=width:15px name="bushu" value="0">
+      </form><p>
+        
+      <form id="form1" action="/cmdsave" method="post" target="hiddenIFrame">
+      <input type="submit" style=background:#84C1FF;font-weight:bold value="保存">
+      <input style=width:60px name="mingzi" value="卡点01">
+      <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
+      <input type=number style=width:30px style=width:15px name="bushu" value="1">
+      </form><p>
   
-    <form id="form3" action="/cmdsave" method="post" target="hiddenIFrame">
-    <input type="submit" value="删除">
-    <input style=width:60px name="mingzi" value="删除">
-    <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
-    <input type=number style=width:30px style=width:15px name="bushu" value="0">
-    </form><p>
+      <form id="form2" action="/cmdsave" method="post" target="hiddenIFrame">
+      <input type="submit" style=background:#84C1FF;font-weight:bold value="保存">
+      <input style=width:60px name="mingzi" value="随机训练">
+      <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
+      <input type=number style=width:30px style=width:15px name="bushu" value="5">
+      </form><p>
+    
+      <form id="form3" action="/cmdsave" method="post" target="hiddenIFrame">
+      <input type="submit" style=background:#84C1FF;font-weight:bold value="删除">
+      <input style=width:60px name="mingzi" value="删除">
+      <input type=number style=width:30px style=width:15px name="dongzuo" value="22">
+      <input type=number style=width:30px style=width:15px name="bushu" value="0">
+      </form><p>
+    
+      <span id="A0State"></span>
+       
+      <script type="text/javascript" src="jquery.min.js"></script>
+      <script type="text/javascript">
+      function setpwm(m){var xhttp=new XMLHttpRequest(); m>9?n=9:n=m;
+          xhttp.open("GET","setpwm?"+n+"="+document.getElementById(m).value,true);xhttp.send();}
   
-    <span id="A0State"></span>
-     
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript">
-    function setpwm(m){var xhttp=new XMLHttpRequest(); m>9?n=9:n=m;
-        xhttp.open("GET","setpwm?"+n+"="+document.getElementById(m).value,true);xhttp.send();}
-
-    function setpds(m){var xhttp=new XMLHttpRequest();
-        xhttp.open("GET","setpwm?0="+document.getElementById(m).value,true);xhttp.send();}
+      function setpds(m){var xhttp=new XMLHttpRequest();
+          xhttp.open("GET","setpwm?0="+document.getElementById(m).value,true);xhttp.send();}
+      
+      function sendbufa(j,k) {var xhttp = new XMLHttpRequest();
+          xhttp.open("GET", "cmddanbu?dong="+j+"&bufa="+k, true);xhttp.send();}
     
-    function sendbufa(j,k) {var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "cmddanbu?dong="+j+"&bufa="+k, true);xhttp.send();}
-  
-    function fuwei() {var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "tingzhi", true);xhttp.send();}
-    
-    //setInterval(function() {getData();}, 2000);
-    function getData() {var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("A0State").innerHTML =this.responseText;}};
-      xhttp.open("GET", "readA0", true);xhttp.send();}
-    
-    //$(function() {getData();});
-    $(document).ready(function(){getData();})
-    $("form").submit( function(){getData();} );
-    </script>
-    <iframe style="display:none" name="hiddenIFrame" id="hiddenIFrame"/></body></html>
-    
+      function fuwei() {var xhttp = new XMLHttpRequest();
+          xhttp.open("GET", "tingzhi", true);xhttp.send();}
+      
+      //setInterval(function() {getData();}, 2000);
+      function getData() {var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("A0State").innerHTML =this.responseText;}};
+        xhttp.open("GET", "readA0", true);xhttp.send();}
+      
+      //$(function() {getData();});
+      $(document).ready(function(){getData();})
+      $("form").submit( function(){getData();} );
+      </script>
+      <iframe style="display:none" name="hiddenIFrame" id="hiddenIFrame"/></body></html>
+      
